@@ -8,11 +8,17 @@ echo "   ==============================================   ";
 echo "                                                    ";
 echo -n "   Custom DOMAIN : "
 read DOMAIN
+echo -n "   Custom POINTING IP : "
+read POINTING_IP
+echo -n "   Custom POINTING PORT : "
+read POINTING_PORT
 echo "                                                    ";
 echo "   ==============================================   ";
 echo "                                                    ";
 sudo cp support/domain /etc/nginx/sites-available/$DOMAIN
 sed -i "s/domain/$DOMAIN/g" /etc/nginx/sites-available/$DOMAIN
+sed -i "s/localhost/$POINTING_IP/g" /etc/nginx/sites-available/$DOMAIN
+sed -i "s/port/$POINTING_PORT/g" /etc/nginx/sites-available/$DOMAIN
 sudo ln -s /etc/nginx/sites-available/$DOMAIN /etc/nginx/sites-enabled/
 sudo systemctl restart nginx
 sudo certbot --nginx -d $DOMAIN
